@@ -1,8 +1,8 @@
 from fastapi import FastAPI, Depends
 from database import engine
 from sqlmodel import SQLModel, Session
-from blog.blog import router as blogRouter
-from user.user import router as userRouter
+from routers.blog.blog import router as blogRouter
+from routers.user.user import router as userRouter
 
 app = FastAPI()
 
