@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 class Blog(BaseModel):
     title: str
@@ -6,6 +7,7 @@ class Blog(BaseModel):
 
 class ShowBlog(BaseModel):
     title: str
+    author_id: int
     
 class User(BaseModel):
     name: str
@@ -14,3 +16,6 @@ class User(BaseModel):
 
 class UserInfo(BaseModel):
     name: str
+    blogs: List[Blog]
+
+    
