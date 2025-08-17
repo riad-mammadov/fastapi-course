@@ -1,13 +1,16 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class Blog(BaseModel):
     title: str
     body: str
+    author_id: int
 
 class ShowBlog(BaseModel):
     title: str
-    author_id: int
+    body: str
+    author: "UserInfo"
     
 class User(BaseModel):
     name: str
@@ -16,6 +19,12 @@ class User(BaseModel):
 
 class UserInfo(BaseModel):
     name: str
-    blogs: List[Blog]
+    email: str
 
-    
+class UserLogin(BaseModel):
+    email:str
+    password: str    
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
