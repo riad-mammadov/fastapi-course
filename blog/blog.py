@@ -1,9 +1,10 @@
 from fastapi import status, Response, HTTPException, APIRouter
 from schemas import Blog as blogSchema, ShowBlog
-from models import Blog as blogModel
+from models import Blog as blogModel, User as userModel
 from sqlmodel import select
 from database import SessionDep
 from typing import List
+
 
 router = APIRouter(prefix="/blog", tags=["Blogs"])
 
@@ -32,6 +33,17 @@ def specific(id:int, db: SessionDep, res:Response):
         # return {'error': f"Blog with ID of {id} not found."}
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with ID {id} not found.")
     return blog
+
+
+@router.get("/blog/author/{author_id}", response_model=List[ShowBlog])
+def get_blog_by_author(author_id:int, db:SessionDep):
+    blogs = db.exec(select(blogModel).where(blogModel.author_id == author_id)).all()
+    if not blogs:
+        # res.status_code = status.HTTP_404_NOT_FOUND
+        # return {'error': f"Blog with ID of {id} not found."}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Blog with ID {id} not found.")
+    return blogs
+
 
 @router.delete("/blog/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_blog(id:int, db:SessionDep):
